@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudPost.dao.LetterMapper">
+  <resultMap id="BaseResultMap" type="com.cloudPost.entity.Letter">
+    <id column="letterID" jdbcType="INTEGER" property="letterid" />
+    <result column="isPublic" jdbcType="INTEGER" property="ispublic" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="userID" jdbcType="VARCHAR" property="userid" />
+    <result column="readTime" jdbcType="INTEGER" property="readtime" />
+    <result column="saveTime" jdbcType="TIMESTAMP" property="savetime" />
+    <result column="sended" jdbcType="INTEGER" property="sended" />
+    <result column="readed" jdbcType="INTEGER" property="readed" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    letterID, isPublic, title, content, userID, readTime, saveTime, sended, readed
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from letter
+    where letterID = #{letterid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserID" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from letter
+    where userID = #{userID,jdbcType=VARCHAR} and sended = #{sended,jdbcType=INTEGER}
+  </select>
+  <select id="selectMaxLetterID" resultType="java.lang.Integer">
+  	select max(letterID) 
+  	from letter
+  </select>
+  <select id="selectLimit" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from letter
+    where letterID = #{letterid,jdbcType=INTEGER} and isPublic = 1
+    LIMIT #{offset},#{pagenum}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from letter
+    where letterID = #{letterid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cloudPost.entity.Letter">
+    insert into letter (letterID, isPublic, title, 
+      content, userID, readTime, 
+      saveTime, sended, readed
+      )
+    values (#{letterid,jdbcType=INTEGER}, #{ispublic,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{readtime,jdbcType=INTEGER}, 
+      #{savetime,jdbcType=TIMESTAMP}, #{sended,jdbcType=INTEGER}, #{readed,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloudPost.entity.Letter">
+    insert into letter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="letterid != null">
+        letterID,
+      </if>
+      <if test="ispublic != null">
+        isPublic,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="userid != null">
+        userID,
+      </if>
+      <if test="readtime != null">
+        readTime,
+      </if>
+      <if test="savetime != null">
+        saveTime,
+      </if>
+      <if test="sended != null">
+        sended,
+      </if>
+      <if test="readed != null">
+        readed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="letterid != null">
+        #{letterid,jdbcType=INTEGER},
+      </if>
+      <if test="ispublic != null">
+        #{ispublic,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="readtime != null">
+        #{readtime,jdbcType=INTEGER},
+      </if>
+      <if test="savetime != null">
+        #{savetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sended != null">
+        #{sended,jdbcType=INTEGER},
+      </if>
+      <if test="readed != null">
+        #{readed,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloudPost.entity.Letter">
+    update letter
+    <set>
+      <if test="ispublic != null">
+        isPublic = #{ispublic,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="readtime != null">
+        readTime = #{readtime,jdbcType=INTEGER},
+      </if>
+      <if test="savetime != null">
+        saveTime = #{savetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sended != null">
+        sended = #{sended,jdbcType=INTEGER},
+      </if>
+      <if test="readed != null">
+        readed = #{readed,jdbcType=INTEGER},
+      </if>
+    </set>
+    where letterID = #{letterid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloudPost.entity.Letter">
+    update letter
+    set isPublic = #{ispublic,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      userID = #{userid,jdbcType=VARCHAR},
+      readTime = #{readtime,jdbcType=INTEGER},
+      saveTime = #{savetime,jdbcType=TIMESTAMP},
+      sended = #{sended,jdbcType=INTEGER},
+      readed = #{readed,jdbcType=INTEGER}
+    where letterID = #{letterid,jdbcType=INTEGER}
+  </update>
+</mapper>

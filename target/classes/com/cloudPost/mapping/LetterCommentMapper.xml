@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloudPost.dao.LetterCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.cloudPost.entity.LetterComment" >
+    <result column="letterID" property="letterid" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="userID" property="userid" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByLetterID" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select comment 
+  	from letter_comment
+  	where letterID = #{letterID,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.cloudPost.entity.LetterComment" >
+    insert into letter_comment (letterID, comment, userID, 
+      time)
+    values (#{letterid,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloudPost.entity.LetterComment" >
+    insert into letter_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="letterid != null" >
+        letterID,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="userid != null" >
+        userID,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="letterid != null" >
+        #{letterid,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloudPost.dao.RecentLettersMapper" >
+  <resultMap id="BaseResultMap" type="com.cloudPost.entity.RecentLetters" >
+    <result column="userID" property="userid" jdbcType="VARCHAR" />
+    <result column="letterID" property="letterid" jdbcType="INTEGER" />
+    <result column="readTime" property="readtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByUserID"  parameterType="java.lang.String"  resultType="java.lang.Integer">
+  	select letterID
+  	from recent_letters
+  	order by readTime desc
+  </select>
+  <insert id="insert" parameterType="com.cloudPost.entity.RecentLetters" >
+    insert into recent_letters (userID, letterID, readTime
+      )
+    values (#{userid,jdbcType=VARCHAR}, #{letterid,jdbcType=INTEGER}, #{readtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloudPost.entity.RecentLetters" >
+    insert into recent_letters
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userID,
+      </if>
+      <if test="letterid != null" >
+        letterID,
+      </if>
+      <if test="readtime != null" >
+        readTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="letterid != null" >
+        #{letterid,jdbcType=INTEGER},
+      </if>
+      <if test="readtime != null" >
+        #{readtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>
